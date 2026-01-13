@@ -1,6 +1,6 @@
-# Binaries
-btcx
-btcx.exe
+# Binaries (at root level only)
+/btcx
+/btcx.exe
 *.exe
 *.dll
 *.so
