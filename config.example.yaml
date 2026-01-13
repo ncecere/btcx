@@ -1,0 +1,165 @@
+# btcx configuration example
+# Copy this file to ~/.config/btcx/config.yaml
+
+# =============================================================================
+# Model Configurations (Recommended)
+# =============================================================================
+# 
+# Define multiple AI models and switch between them with --model flag.
+# This is the recommended way to configure btcx.
+
+# Default model to use (name from models list)
+defaultModel: devstral
+
+# Named model configurations
+models:
+  # ---------------------------------------------------------------------------
+  # Ollama (Local, free, no API key needed)
+  # ---------------------------------------------------------------------------
+  - name: devstral
+    provider: ollama
+    model: devstral-small-2:latest
+    # baseUrl: http://localhost:11434/v1  # Optional, this is the default
+
+  - name: llama
+    provider: ollama
+    model: llama3.2
+
+  - name: qwen
+    provider: ollama
+    model: qwen2.5-coder:14b
+    
+  # ---------------------------------------------------------------------------
+  # Anthropic (Best quality for code)
+  # ---------------------------------------------------------------------------
+  - name: claude
+    provider: anthropic
+    model: claude-sonnet-4-20250514
+    # apiKey: sk-ant-...  # Optional, falls back to ANTHROPIC_API_KEY env var
+
+  - name: claude-haiku
+    provider: anthropic
+    model: claude-haiku-4-5
+    
+  # ---------------------------------------------------------------------------
+  # OpenAI
+  # ---------------------------------------------------------------------------
+  - name: gpt4
+    provider: openai
+    model: gpt-4o
+    # apiKey: sk-...  # Optional, falls back to OPENAI_API_KEY env var
+
+  - name: gpt4-mini
+    provider: openai
+    model: gpt-4o-mini
+    
+  # ---------------------------------------------------------------------------
+  # Google
+  # ---------------------------------------------------------------------------
+  - name: gemini
+    provider: google
+    model: gemini-2.0-flash
+    # apiKey: ...  # Optional, falls back to GOOGLE_API_KEY env var
+    
+  # ---------------------------------------------------------------------------
+  # OpenAI-Compatible (Together, Groq, LM Studio, etc.)
+  # ---------------------------------------------------------------------------
+  - name: together-llama
+    provider: openai-compatible
+    model: meta-llama/Llama-3-70b-chat-hf
+    baseUrl: https://api.together.xyz/v1
+    apiKey: your-together-api-key  # Required for openai-compatible
+
+  - name: groq
+    provider: openai-compatible
+    model: llama-3.1-70b-versatile
+    baseUrl: https://api.groq.com/openai/v1
+    apiKey: your-groq-api-key
+
+  - name: lmstudio
+    provider: openai-compatible
+    model: local-model
+    baseUrl: http://localhost:1234/v1
+    # No API key needed for local LM Studio
+
+# =============================================================================
+# Output Configuration
+# =============================================================================
+
+output:
+  # Enable animated spinner during processing (set false for CI/agents)
+  spinner: true
+  
+  # Render markdown in output (set false for raw text)
+  markdown: true
+  
+  # Show token usage after response
+  showUsage: true
+
+# =============================================================================
+# Cache Configuration
+# =============================================================================
+
+cache:
+  # Directory to store cloned repositories
+  # Supports ~ for home directory
+  path: ~/.cache/btcx
+
+# =============================================================================
+# Resources
+# =============================================================================
+# 
+# Resources are the documentation sources you want to search.
+# Each resource can be either a git repository or a local directory.
+
+resources:
+  # ---------------------------------------------------------------------------
+  # Git Resource Examples
+  # ---------------------------------------------------------------------------
+  - name: svelte
+    type: git
+    url: https://github.com/sveltejs/svelte.dev
+    branch: main
+    searchPath: apps/svelte.dev/content
+    notes: Svelte 5 documentation. Focus on runes ($state, $derived, $effect).
+
+  - name: cobra
+    type: git
+    url: https://github.com/spf13/cobra
+    branch: main
+    notes: Go CLI library for building command-line applications
+
+  - name: react
+    type: git
+    url: https://github.com/reactjs/react.dev
+    branch: main
+    searchPath: src/content
+    notes: React documentation including hooks, components, and patterns
+
+  - name: bubbletea
+    type: git
+    url: https://github.com/charmbracelet/bubbletea
+    branch: master
+    notes: Go TUI framework using the Elm architecture
+
+  # ---------------------------------------------------------------------------
+  # Local Resource Examples
+  # ---------------------------------------------------------------------------
+  # - name: myproject
+  #   type: local
+  #   path: ~/Projects/myproject
+  #   searchPath: src
+  #   notes: My project source code
+
+# =============================================================================
+# Legacy Configuration (Backward Compatible)
+# =============================================================================
+# 
+# You can still use the flat provider/model format if you only need one model:
+#
+# provider: ollama
+# model: llama3.2
+# baseUrl: http://localhost:11434/v1
+# apiKey: ...  # optional
+#
+# This is equivalent to having a single model named "default".
